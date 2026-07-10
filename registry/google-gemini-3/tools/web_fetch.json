@@ -1,0 +1,19 @@
+{
+  "name": "web_fetch",
+  "capability": "web_fetch",
+  "confidence": "official (source getToolSet, gemini-3)",
+  "implemented": false,
+  "description": "Analyzes and extracts information from up to 20 URLs. Ideal for documentation review, technical research, or reading raw code from GitHub. You can provide specific, complex instructions for the extraction (e.g., 'Summarize the breaking changes'). Provides cited answers based on the content. GitHub 'blob' URLs are automatically converted to raw versions for better processing. Supports HTTP/HTTPS only.",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "prompt": {
+        "description": "A string containing the URL(s) and your specific analysis instructions. Be clear about what information you want to find or summarize. Supports up to 20 URLs.",
+        "type": "string"
+      }
+    },
+    "required": [
+      "prompt"
+    ]
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "name": "multi_agent_v1.resume_agent",
+  "capability": "subagent",
+  "confidence": "official (source dump: create_tools_json_for_responses_api)",
+  "implemented": false,
+  "description": "Resume a previously closed agent by id so it can receive send_input and wait_agent calls.",
+  "parameters": {
+    "additionalProperties": false,
+    "properties": {
+      "id": {
+        "description": "Agent id to resume.",
+        "type": "string"
+      }
+    },
+    "required": [
+      "id"
+    ],
+    "type": "object"
+  }
+}

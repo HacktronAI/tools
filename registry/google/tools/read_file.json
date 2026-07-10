@@ -1,0 +1,29 @@
+{
+  "name": "read_file",
+  "capability": "read",
+  "confidence": "official (source getToolSet, default-legacy)",
+  "implemented": true,
+  "description": "Reads and returns the content of a specified file. If the file is large, the content will be truncated. The tool's response will clearly indicate if truncation has occurred and will provide details on how to read more of the file using the 'start_line' and 'end_line' parameters. Handles text, images (PNG, JPG, GIF, WEBP, SVG, BMP), audio files (MP3, WAV, AIFF, AAC, OGG, FLAC), and PDF files. For text files, it can read specific line ranges.",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "file_path": {
+        "description": "The path to the file to read.",
+        "type": "string"
+      },
+      "start_line": {
+        "description": "Optional: The 1-based line number to start reading from.",
+        "type": "integer",
+        "minimum": 1
+      },
+      "end_line": {
+        "description": "Optional: The 1-based line number to end reading at (inclusive).",
+        "type": "integer",
+        "minimum": 1
+      }
+    },
+    "required": [
+      "file_path"
+    ]
+  }
+}

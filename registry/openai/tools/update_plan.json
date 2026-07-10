@@ -1,0 +1,47 @@
+{
+  "name": "update_plan",
+  "capability": "todo",
+  "confidence": "official (source dump: create_tools_json_for_responses_api)",
+  "implemented": true,
+  "description": "Updates the task plan.\nProvide an optional explanation and a list of plan items, each with a step and status.\nAt most one step can be in_progress at a time.\n",
+  "parameters": {
+    "additionalProperties": false,
+    "properties": {
+      "explanation": {
+        "description": "Optional explanation for this plan update.",
+        "type": "string"
+      },
+      "plan": {
+        "description": "The list of steps",
+        "items": {
+          "additionalProperties": false,
+          "properties": {
+            "status": {
+              "description": "Step status.",
+              "enum": [
+                "pending",
+                "in_progress",
+                "completed"
+              ],
+              "type": "string"
+            },
+            "step": {
+              "description": "Task step text.",
+              "type": "string"
+            }
+          },
+          "required": [
+            "step",
+            "status"
+          ],
+          "type": "object"
+        },
+        "type": "array"
+      }
+    },
+    "required": [
+      "plan"
+    ],
+    "type": "object"
+  }
+}

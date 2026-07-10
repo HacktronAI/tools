@@ -1,0 +1,70 @@
+{
+  "name": "rg",
+  "capability": "grep",
+  "confidence": "official (wire capture)",
+  "implemented": true,
+  "description": "Search the workspace with ripgrep.\n\n- Use this tool instead of shell rg; respects .gitignore and .cursorignore\n- Default scope is the workspace root; set path (absolute path) to narrow it\n- Supply a regex pattern; escape metacharacters, e.g. \"functionCall\\(\", \"\\{\", \"\\}\"\n- Prefer type over broad glob; wildcard globs like * bypass ignore rules and slow searches\n- Enable multiline only when a match spans lines\u2014it can degrade performance\n- Context flags (-A, -B, -C) only affect content output\n- If results show \"at least \u2026\", the output was truncated; tighten the query or raise head_limit",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "pattern": {
+        "type": "string",
+        "description": "The regular expression pattern to search for in file contents"
+      },
+      "path": {
+        "type": "string",
+        "description": "File or directory to search in (rg pattern -- PATH). Defaults to Cursor workspace root."
+      },
+      "glob": {
+        "type": "string",
+        "description": "Glob pattern to filter files (e.g. \"*.js\", \"*.{ts,tsx}\") - maps to rg --glob"
+      },
+      "output_mode": {
+        "type": "string",
+        "enum": [
+          "content",
+          "files_with_matches",
+          "count"
+        ],
+        "description": "Output mode: \"content\" shows matching lines (supports -A/-B/-C context, -n line numbers, head_limit), \"files_with_matches\" shows file paths (supports head_limit), \"count\" shows match counts (supports head_limit). Defaults to \"content\"."
+      },
+      "-B": {
+        "type": "number",
+        "description": "Number of lines to show before each match (rg -B). Requires output_mode: \"content\", ignored otherwise."
+      },
+      "-A": {
+        "type": "number",
+        "description": "Number of lines to show after each match (rg -A). Requires output_mode: \"content\", ignored otherwise."
+      },
+      "-C": {
+        "type": "number",
+        "description": "Number of lines to show before and after each match (rg -C). Requires output_mode: \"content\", ignored otherwise."
+      },
+      "-i": {
+        "type": "boolean",
+        "description": "Case insensitive search (rg -i) Defaults to false"
+      },
+      "type": {
+        "type": "string",
+        "description": "File type to search (rg --type). Common types: js, py, rust, go, java, etc. More efficient than include for standard file types."
+      },
+      "head_limit": {
+        "type": "number",
+        "minimum": 0,
+        "description": "Limit output size. For \"content\" mode: limits total matches shown. For \"files_with_matches\" and \"count\" modes: limits number of files."
+      },
+      "offset": {
+        "type": "number",
+        "minimum": 0,
+        "description": "Skip first N entries. For \"content\" mode: skips first N matches. For \"files_with_matches\" and \"count\" modes: skips first N files. Use with head_limit for pagination."
+      },
+      "multiline": {
+        "type": "boolean",
+        "description": "Enable multiline mode where . matches newlines and patterns can span lines (rg -U --multiline-dotall). Default: false."
+      }
+    },
+    "required": [
+      "pattern"
+    ]
+  }
+}

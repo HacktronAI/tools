@@ -1,0 +1,8 @@
+{
+  "name": "web_search",
+  "capability": "web_search",
+  "confidence": "official (source dump: create_tools_json_for_responses_api)",
+  "implemented": false,
+  "description": "Hosted web search tool.",
+  "parameters": {}
+}

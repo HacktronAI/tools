@@ -1,0 +1,29 @@
+{
+  "name": "read_file",
+  "capability": "read",
+  "confidence": "official (source getToolSet, gemini-3)",
+  "implemented": true,
+  "description": "Reads and returns the content of a specified file. To maintain context efficiency, you MUST use 'start_line' and 'end_line' for targeted, surgical reads of specific sections. For your safety, the tool will automatically truncate output exceeding 2000 lines, 2000 characters per line, or 20MB in size; however, triggering these limits is considered token-inefficient. Always retrieve only the minimum content necessary for your next step. Handles text, images (PNG, JPG, GIF, WEBP, SVG, BMP), audio files (MP3, WAV, AIFF, AAC, OGG, FLAC), and PDF files.",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "file_path": {
+        "description": "The path to the file to read.",
+        "type": "string"
+      },
+      "start_line": {
+        "description": "Optional: The 1-based line number to start reading from.",
+        "type": "integer",
+        "minimum": 1
+      },
+      "end_line": {
+        "description": "Optional: The 1-based line number to end reading at (inclusive).",
+        "type": "integer",
+        "minimum": 1
+      }
+    },
+    "required": [
+      "file_path"
+    ]
+  }
+}

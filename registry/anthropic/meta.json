@@ -1,0 +1,29 @@
+{
+  "id": "anthropic",
+  "name": "Anthropic",
+  "agent": "Claude Code",
+  "version": "2.1.206",
+  "source": "Wire capture, cross-checked against shipped binary v2.1.206",
+  "tools": [
+    "Agent",
+    "AskUserQuestion",
+    "Bash",
+    "Edit",
+    "EnterPlanMode",
+    "ExitPlanMode",
+    "Glob",
+    "Grep",
+    "LSP",
+    "NotebookEdit",
+    "Read",
+    "SendMessage",
+    "TaskCreate",
+    "TaskGet",
+    "TaskList",
+    "TaskUpdate",
+    "TodoWrite",
+    "WebFetch",
+    "WebSearch",
+    "Write"
+  ]
+}

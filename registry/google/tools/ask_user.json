@@ -1,0 +1,77 @@
+{
+  "name": "ask_user",
+  "capability": "question",
+  "confidence": "official (source getToolSet, default-legacy)",
+  "implemented": false,
+  "description": "Ask the user one or more questions to gather preferences, clarify requirements, or make decisions.",
+  "parameters": {
+    "type": "object",
+    "required": [
+      "questions"
+    ],
+    "properties": {
+      "questions": {
+        "type": "array",
+        "minItems": 1,
+        "maxItems": 4,
+        "items": {
+          "type": "object",
+          "required": [
+            "question",
+            "header",
+            "type"
+          ],
+          "properties": {
+            "question": {
+              "type": "string",
+              "description": "The complete question to ask the user. Should be clear, specific, and end with a question mark."
+            },
+            "header": {
+              "type": "string",
+              "description": "Very short label displayed as a chip/tag. Use abbreviations: \"Auth\" not \"Authentication\", \"Config\" not \"Configuration\". Examples: \"Auth method\", \"Library\", \"Approach\", \"Database\"."
+            },
+            "type": {
+              "type": "string",
+              "enum": [
+                "choice",
+                "text",
+                "yesno"
+              ],
+              "default": "choice",
+              "description": "Question type: 'choice' (default) for multiple-choice with options, 'text' for free-form input, 'yesno' for Yes/No confirmation with optional 'Other' feedback."
+            },
+            "options": {
+              "type": "array",
+              "description": "The selectable choices for 'choice' type questions. Provide 2-4 options. An 'Other' option is automatically added for 'choice' and 'yesno' types. Not needed for 'text' or 'yesno'.",
+              "items": {
+                "type": "object",
+                "required": [
+                  "label",
+                  "description"
+                ],
+                "properties": {
+                  "label": {
+                    "type": "string",
+                    "description": "The display text for this option (1-5 words). Example: \"OAuth 2.0\""
+                  },
+                  "description": {
+                    "type": "string",
+                    "description": "Brief explanation of this option. Example: \"Industry standard, supports SSO\""
+                  }
+                }
+              }
+            },
+            "multiSelect": {
+              "type": "boolean",
+              "description": "Only applies when type='choice'. Set to true to allow selecting multiple options."
+            },
+            "placeholder": {
+              "type": "string",
+              "description": "Hint text shown in the input field. For type='text', shown in the main input. For type='choice' and 'yesno', shown in the 'Other' custom input."
+            }
+          }
+        }
+      }
+    }
+  }
+}

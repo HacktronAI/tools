@@ -1,0 +1,14 @@
+node_modules/
+.next/
+*.tsbuildinfo
+*.log
+.DS_Store
+
+
+# internal tooling & raw captures 
+scripts/
+spec/captures/
+
+# agent/editor local config
+.agent/
+.claude/

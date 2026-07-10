@@ -1,0 +1,53 @@
+{
+  "name": "TodoWrite",
+  "capability": "todo",
+  "confidence": "official (wire capture)",
+  "implemented": true,
+  "description": "Updates the todo list. Provide a list of todo items, each with an id, content, and status. Provide merge=true to update existing tasks.\n\n### Guidelines\n- At most one task can be in_progress at a time.\n- Cancel tasks that are no longer needed immediately.\n- Prefer creating the first todo as in_progress\n- Batch todo updates with other tool calls in parallel",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "merge": {
+        "type": "boolean",
+        "description": "Whether to merge the todos with the existing todos. If true, the todos will be merged into the existing todos based on the id field. You can leave unchanged properties undefined. If false, the new todos will replace the existing todos."
+      },
+      "todos": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "Unique identifier for the TODO item"
+            },
+            "content": {
+              "type": "string",
+              "description": "The description/content of the todo item"
+            },
+            "status": {
+              "type": "string",
+              "enum": [
+                "pending",
+                "in_progress",
+                "completed",
+                "cancelled"
+              ],
+              "description": "The current status of the TODO item"
+            }
+          },
+          "required": [
+            "id",
+            "content",
+            "status"
+          ]
+        },
+        "minItems": 2,
+        "description": "Array of TODO items to update or create"
+      }
+    },
+    "required": [
+      "merge",
+      "todos"
+    ]
+  }
+}

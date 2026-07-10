@@ -1,0 +1,28 @@
+{
+  "name": "shell_command",
+  "capability": "bash",
+  "confidence": "official",
+  "implemented": true,
+  "description": "Runs a shell command and returns its output.\n- Always set the `workdir` param when using the shell_command function. Do not use `cd` unless absolutely necessary.",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "command": {
+        "type": "string",
+        "description": "Shell script to run in the user's default shell."
+      },
+      "workdir": {
+        "type": "string",
+        "description": "Working directory for the command. Defaults to the turn cwd."
+      },
+      "timeout_ms": {
+        "type": "number",
+        "description": "Maximum command runtime. Defaults to 10000 ms."
+      }
+    },
+    "required": [
+      "command"
+    ],
+    "additionalProperties": false
+  }
+}

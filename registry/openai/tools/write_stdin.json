@@ -1,0 +1,32 @@
+{
+  "name": "write_stdin",
+  "capability": "shell_session",
+  "confidence": "official (source dump: create_tools_json_for_responses_api)",
+  "implemented": false,
+  "description": "Writes characters to an existing unified exec session and returns recent output.",
+  "parameters": {
+    "additionalProperties": false,
+    "properties": {
+      "chars": {
+        "description": "Bytes to write to stdin. Defaults to empty, which polls without writing.",
+        "type": "string"
+      },
+      "max_output_tokens": {
+        "description": "Output token budget. Defaults to 10000 tokens; larger requests may be capped by policy.",
+        "type": "number"
+      },
+      "session_id": {
+        "description": "Identifier of the running unified exec session.",
+        "type": "number"
+      },
+      "yield_time_ms": {
+        "description": "Wait before yielding output. Non-empty writes default to 250 ms and cap at 30000 ms; empty polls wait 5000-300000 ms by default.",
+        "type": "number"
+      }
+    },
+    "required": [
+      "session_id"
+    ],
+    "type": "object"
+  }
+}

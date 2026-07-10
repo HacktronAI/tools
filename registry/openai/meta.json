@@ -1,0 +1,21 @@
+{
+  "id": "openai",
+  "name": "OpenAI",
+  "agent": "Codex CLI",
+  "version": "2026-07-10",
+  "source": "Source build (create_tools_json_for_responses_api dump)",
+  "tools": [
+    "apply_patch",
+    "exec_command",
+    "multi_agent_v1.close_agent",
+    "multi_agent_v1.resume_agent",
+    "multi_agent_v1.send_input",
+    "multi_agent_v1.spawn_agent",
+    "multi_agent_v1.wait_agent",
+    "request_user_input",
+    "shell_command",
+    "update_plan",
+    "web_search",
+    "write_stdin"
+  ]
+}

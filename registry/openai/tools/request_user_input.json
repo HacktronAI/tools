@@ -1,0 +1,70 @@
+{
+  "name": "request_user_input",
+  "capability": "question",
+  "confidence": "official (source dump: create_tools_json_for_responses_api)",
+  "implemented": false,
+  "description": "Request user input for one to three short questions and wait for the response. Set autoResolutionMs, from 60000 to 240000 milliseconds, only when the question is useful but non-blocking and continuing with best judgment is acceptable if the user does not answer; omit it when explicit user input is required. This tool is only available in Plan mode.",
+  "parameters": {
+    "additionalProperties": false,
+    "properties": {
+      "autoResolutionMs": {
+        "description": "Optional auto-resolution window in milliseconds, from 60000 to 240000. Include this only when the question is useful but non-blocking and continuing with best judgment is acceptable if the user does not answer; omit it when explicit user input is required before continuing. Use 60000 for lightly helpful context and up to 240000 when the answer would materially unblock better work.",
+        "type": "number"
+      },
+      "questions": {
+        "description": "Questions to show the user. Prefer 1 and do not exceed 3",
+        "items": {
+          "additionalProperties": false,
+          "properties": {
+            "header": {
+              "description": "Short header label shown in the UI (12 or fewer chars).",
+              "type": "string"
+            },
+            "id": {
+              "description": "Stable identifier for mapping answers (snake_case).",
+              "type": "string"
+            },
+            "options": {
+              "description": "Provide 2-3 mutually exclusive choices. Put the recommended option first and suffix its label with \"(Recommended)\". Do not include an \"Other\" option in this list; the client will add a free-form \"Other\" option automatically.",
+              "items": {
+                "additionalProperties": false,
+                "properties": {
+                  "description": {
+                    "description": "One short sentence explaining impact/tradeoff if selected.",
+                    "type": "string"
+                  },
+                  "label": {
+                    "description": "User-facing label (1-5 words).",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "label",
+                  "description"
+                ],
+                "type": "object"
+              },
+              "type": "array"
+            },
+            "question": {
+              "description": "Single-sentence prompt shown to the user.",
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "header",
+            "question",
+            "options"
+          ],
+          "type": "object"
+        },
+        "type": "array"
+      }
+    },
+    "required": [
+      "questions"
+    ],
+    "type": "object"
+  }
+}

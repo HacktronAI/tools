@@ -1,0 +1,20 @@
+{
+  "name": "multi_agent_v1.close_agent",
+  "capability": "subagent",
+  "confidence": "official (source dump: create_tools_json_for_responses_api)",
+  "implemented": false,
+  "description": "Close an agent and any open descendants when they are no longer needed, and return the target agent's previous status before shutdown was requested. Completed agents remain open and count toward the concurrency limit until closed. Don't keep agents open for too long if they are not needed anymore.",
+  "parameters": {
+    "additionalProperties": false,
+    "properties": {
+      "target": {
+        "description": "Agent id to close (from spawn_agent).",
+        "type": "string"
+      }
+    },
+    "required": [
+      "target"
+    ],
+    "type": "object"
+  }
+}

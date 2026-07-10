@@ -1,0 +1,16 @@
+{
+  "name": "enter_plan_mode",
+  "capability": "plan",
+  "confidence": "official (source getToolSet, default-legacy)",
+  "implemented": false,
+  "description": "Switch to Plan Mode to safely research, design, and plan complex changes using read-only tools.",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "reason": {
+        "type": "string",
+        "description": "Short reason explaining why you are entering plan mode."
+      }
+    }
+  }
+}

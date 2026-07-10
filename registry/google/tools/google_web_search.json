@@ -1,0 +1,19 @@
+{
+  "name": "google_web_search",
+  "capability": "web_search",
+  "confidence": "official (source getToolSet, default-legacy)",
+  "implemented": false,
+  "description": "Performs a web search using Google Search (via the Gemini API) and returns the results. This tool is useful for finding information on the internet based on a query.",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "query": {
+        "type": "string",
+        "description": "The search query to find information on the web."
+      }
+    },
+    "required": [
+      "query"
+    ]
+  }
+}

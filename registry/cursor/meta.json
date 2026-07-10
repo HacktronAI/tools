@@ -1,0 +1,23 @@
+{
+  "id": "cursor",
+  "name": "Cursor",
+  "agent": "cursor-agent",
+  "version": "wire-2026-07-10",
+  "source": "Wire capture (cursor-agent, Composer 2.5)",
+  "tools": [
+    "ApplyPatch",
+    "AskQuestion",
+    "Delete",
+    "EditNotebook",
+    "Glob",
+    "ReadFile",
+    "ReadLints",
+    "Shell",
+    "Subagent",
+    "SwitchMode",
+    "TodoWrite",
+    "WebFetch",
+    "WebSearch",
+    "rg"
+  ]
+}

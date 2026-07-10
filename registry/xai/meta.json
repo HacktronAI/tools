@@ -1,0 +1,22 @@
+{
+  "id": "xai",
+  "name": "xAI",
+  "agent": "grok CLI",
+  "version": "wire-2026-07-10",
+  "source": "Wire capture (grok CLI \u2192 xAI API)",
+  "tools": [
+    "ask_user_question",
+    "enter_plan_mode",
+    "exit_plan_mode",
+    "grep",
+    "list_dir",
+    "read_file",
+    "run_terminal_command",
+    "search_replace",
+    "spawn_subagent",
+    "todo_write",
+    "web_fetch",
+    "web_search",
+    "write"
+  ]
+}

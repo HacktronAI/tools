@@ -1,0 +1,23 @@
+{
+  "id": "google-gemini-3",
+  "name": "Google",
+  "agent": "gemini-cli",
+  "version": "gemini-3 family",
+  "source": "Source (getToolSet, gemini-3 family)",
+  "tools": [
+    "ask_user",
+    "enter_plan_mode",
+    "exit_plan_mode",
+    "glob",
+    "google_web_search",
+    "grep_search",
+    "list_directory",
+    "read_file",
+    "read_many_files",
+    "replace",
+    "run_shell_command",
+    "web_fetch",
+    "write_file",
+    "write_todos"
+  ]
+}

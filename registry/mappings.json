@@ -1,0 +1,11 @@
+{
+  "$comment": "Ordered rules; first case-insensitive regex match on the model id wins. Dialect variants are immutable; this table is the only mutable artifact.",
+  "rules": [
+    { "pattern": "claude", "dialect": "anthropic" },
+    { "pattern": "\\b(gpt-?\\d|o[134](-mini|-pro)?\\b|codex)", "dialect": "openai" },
+    { "pattern": "^openai[/:.-]", "dialect": "openai" },
+    { "pattern": "gemini", "dialect": "gemini" },
+    { "pattern": "^(google|vertex)[/:.-]", "dialect": "gemini" }
+  ],
+  "fallback": "generic"
+}

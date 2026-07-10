@@ -1,0 +1,19 @@
+{
+  "name": "google_web_search",
+  "capability": "web_search",
+  "confidence": "official (source getToolSet, gemini-3)",
+  "implemented": false,
+  "description": "Performs a grounded Google Search to find information across the internet. Returns a synthesized answer with citations (e.g., [1]) and source URIs. Best for finding up-to-date documentation, troubleshooting obscure errors, or broad research. Use this when you don't have a specific URL. If a search result requires deeper analysis, follow up by using 'web_fetch' on the provided URI.",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "query": {
+        "type": "string",
+        "description": "The search query. Supports natural language questions (e.g., 'Latest breaking changes in React 19') or specific technical queries."
+      }
+    },
+    "required": [
+      "query"
+    ]
+  }
+}

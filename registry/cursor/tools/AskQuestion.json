@@ -1,0 +1,68 @@
+{
+  "name": "AskQuestion",
+  "capability": "question",
+  "confidence": "official (wire capture)",
+  "implemented": false,
+  "description": "Collect structured multiple-choice answers from the user. Use this tool only when you are blocked on a decision that is genuinely the user's to make: one you cannot resolve from the request, the code, or sensible defaults.\n\nUsage notes:\n- Each question should have at least 2 options for the user to choose from\n- Users will always be able to select \"Other\" to provide custom text input\n- Use allow_multiple: true to allow multiple answers to be selected for a question\n- If you recommend a specific option, make that the first option in the list and add \"(Recommended)\" at the end of the label\n\nPrefer this tool over listing options in your final response text (as letters, numbers, bullet points, etc).",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "title": {
+        "type": "string",
+        "description": "Optional title for the questions form"
+      },
+      "questions": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "Unique identifier for this question"
+            },
+            "prompt": {
+              "type": "string",
+              "description": "The question text to display to the user, without the options."
+            },
+            "options": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "description": "Unique identifier for this option"
+                  },
+                  "label": {
+                    "type": "string",
+                    "description": "Display text for this option"
+                  }
+                },
+                "required": [
+                  "id",
+                  "label"
+                ]
+              },
+              "minItems": 2,
+              "description": "Array of answer options (minimum 2 required)"
+            },
+            "allow_multiple": {
+              "type": "boolean",
+              "description": "If true, user can select multiple options. Defaults to false."
+            }
+          },
+          "required": [
+            "id",
+            "prompt",
+            "options"
+          ]
+        },
+        "minItems": 1,
+        "description": "Array of questions to present to the user (minimum 1 required)"
+      }
+    },
+    "required": [
+      "questions"
+    ]
+  }
+}

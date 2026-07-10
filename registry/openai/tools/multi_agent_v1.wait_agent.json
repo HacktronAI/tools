@@ -1,0 +1,27 @@
+{
+  "name": "multi_agent_v1.wait_agent",
+  "capability": "subagent",
+  "confidence": "official (source dump: create_tools_json_for_responses_api)",
+  "implemented": false,
+  "description": "Wait for agents to reach a final status. Completed statuses may include the agent's final message. Returns empty status when timed out. Once the agent reaches a final status, a notification message will be received containing the same completed status.",
+  "parameters": {
+    "additionalProperties": false,
+    "properties": {
+      "targets": {
+        "description": "Agent ids to wait on. Pass multiple ids to wait for whichever finishes first.",
+        "items": {
+          "type": "string"
+        },
+        "type": "array"
+      },
+      "timeout_ms": {
+        "description": "Timeout in milliseconds. Defaults to 30000, min 10000, max 3600000. Prefer longer waits (minutes) to avoid busy polling.",
+        "type": "number"
+      }
+    },
+    "required": [
+      "targets"
+    ],
+    "type": "object"
+  }
+}

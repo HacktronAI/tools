@@ -1,0 +1,23 @@
+{
+  "id": "google",
+  "name": "Google",
+  "agent": "gemini-cli",
+  "version": "default-legacy 2026-07-10",
+  "source": "Source (getToolSet, default-legacy family)",
+  "tools": [
+    "ask_user",
+    "enter_plan_mode",
+    "exit_plan_mode",
+    "glob",
+    "google_web_search",
+    "grep_search",
+    "list_directory",
+    "read_file",
+    "read_many_files",
+    "replace",
+    "run_shell_command",
+    "web_fetch",
+    "write_file",
+    "write_todos"
+  ]
+}

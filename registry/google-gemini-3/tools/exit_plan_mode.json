@@ -1,0 +1,19 @@
+{
+  "name": "exit_plan_mode",
+  "capability": "plan",
+  "confidence": "official (source getToolSet, gemini-3)",
+  "implemented": false,
+  "description": "Finalizes the planning phase and transitions to implementation by presenting the plan for formal user approval. You MUST reach an informal agreement with the user in the chat regarding the proposed strategy BEFORE calling this tool. This tool MUST be used to exit Plan Mode before any source code edits can be performed.",
+  "parameters": {
+    "type": "object",
+    "required": [
+      "plan_filename"
+    ],
+    "properties": {
+      "plan_filename": {
+        "type": "string",
+        "description": "The filename of the finalized plan (e.g., \"feature-x.md\"). Do not provide an absolute path."
+      }
+    }
+  }
+}

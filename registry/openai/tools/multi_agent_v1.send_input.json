@@ -1,0 +1,58 @@
+{
+  "name": "multi_agent_v1.send_input",
+  "capability": "subagent",
+  "confidence": "official (source dump: create_tools_json_for_responses_api)",
+  "implemented": false,
+  "description": "Send a message to an existing agent. Use interrupt=true to redirect work immediately. You should reuse the agent by send_input if you believe your assigned task is highly dependent on the context of a previous task.",
+  "parameters": {
+    "additionalProperties": false,
+    "properties": {
+      "interrupt": {
+        "description": "True interrupts the current task and handles this message immediately; false or omitted queues it.",
+        "type": "boolean"
+      },
+      "items": {
+        "description": "Structured input items. Use this to pass explicit mentions (for example app:// connector paths).",
+        "items": {
+          "additionalProperties": false,
+          "properties": {
+            "image_url": {
+              "description": "Image URL when type is image.",
+              "type": "string"
+            },
+            "name": {
+              "description": "Display name when type is skill or mention.",
+              "type": "string"
+            },
+            "path": {
+              "description": "Path when type is local_image/skill, or structured mention target such as app://<connector-id> or plugin://<plugin-name>@<marketplace-name> when type is mention.",
+              "type": "string"
+            },
+            "text": {
+              "description": "Text content when type is text.",
+              "type": "string"
+            },
+            "type": {
+              "description": "Input item type: text, image, local_image, skill, or mention.",
+              "type": "string"
+            }
+          },
+          "type": "object"
+        },
+        "type": "array"
+      },
+      "message": {
+        "description": "Legacy plain-text message to send to the agent. Use either message or items.",
+        "type": "string"
+      },
+      "target": {
+        "description": "Agent id to message (from spawn_agent).",
+        "type": "string"
+      }
+    },
+    "required": [
+      "target"
+    ],
+    "type": "object"
+  }
+}

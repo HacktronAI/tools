@@ -1,0 +1,19 @@
+{
+  "name": "Delete",
+  "capability": "delete",
+  "confidence": "official (wire capture)",
+  "implemented": false,
+  "description": "Delete file at specified path relative to workspace root; fails gracefully if file doesn't exist, security rejection, or undeletable.",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "path": {
+        "type": "string",
+        "description": "The absolute path of the file to delete"
+      }
+    },
+    "required": [
+      "path"
+    ]
+  }
+}

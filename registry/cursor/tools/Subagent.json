@@ -1,0 +1,78 @@
+{
+  "name": "Subagent",
+  "capability": "subagent",
+  "confidence": "official (wire capture)",
+  "implemented": false,
+  "description": "Launch a new agent to handle complex, multi-step tasks autonomously.\n\nThe Subagent tool launches specialized subagents (subprocesses) that autonomously handle complex tasks. Each subagent_type has specific capabilities and tools available to it.\n\nWhen using the Subagent tool, you must specify a subagent_type parameter to select which agent type to use.\n\nVERY IMPORTANT: When broadly exploring the codebase to gather context for a large task, it is recommended that you use the Subagent tool with subagent_type=\"explore\" instead of running search commands directly.\n\nIf the query is a narrow or specific question, you should NOT use the Subagent and instead address the query directly using the other tools available to you.\n\nExamples:\n- user: \"Where is the ClientError class defined?\" assistant: [Uses Grep directly - this is a needle query for a specific class]\n- user: \"Run this query using my database API\" assistant: [Calls the MCP directly - this is not a broad exploration task]\n- user: \"What is the codebase structure?\" assistant: [Uses the Subagent tool with subagent_type=\"explore\"]\n\nIf it is possible to explore different areas of the codebase in parallel, you should launch multiple agents concurrently.\n\nWhen NOT to use the Subagent tool:\n- Simple, single or few-step tasks that can be performed by a single agent (using parallel or sequential tool calls) -- just call the tools directly instead.\n- For example:\n  - If you want to read a specific file path, use the ReadFile or Glob tool instead of the Subagent tool, to find the match more quickly\n  - If you are searching for code within a specific file or set of 2-3 files, use the ReadFile tool instead of the Subagent tool, to find the match more quickly\n  - If you are searching for a specific class definition like \"class Foo\", use the Glob tool instead, to find the match more quickly\n\nUsage notes:\n- Always include a short description (3-5 words) summarizing what the agent will do\n- Launch multiple agents concurrently whenever possible, to maximize performance; to do that, use a single message with multiple tool uses.\n- When the agent is done, it will return a single message back to you. Specify exactly what information the agent should return back in its final response to you. Background subagent completion messages already include a user-visible summary portion; do not summarize or restate a single background subagent's result by default. Respond only when the user asks, multiple background subagents need synthesis, or the background subagent reports a blocker requiring parent action outside of the user-visible high level summary.\n- Agents can be resumed using the `resume` parameter by passing the agent ID from a previous invocation. This sends a follow-up message after the agent has completed, preserving existing context. If the agent is still running, the request fails unless `interrupt` is true. Set `interrupt` to true only when the user explicitly wants to interrupt the running agent. You can also set `resume` to \"self\" to fork the current parent agent into a new child subagent. When NOT resuming, each invocation starts fresh and you should provide a detailed task description with all necessary context.\n- In user-facing responses, you may link to agents and subagents with markdown chat links in the `[label](id)` format, using the agent ID as the link target. Do not print raw agent IDs separately.\n- When using the Subagent tool, the subagent invocation does not have access to the user's message or prior assistant steps. Therefore, you should provide a highly detailed task description with all necessary context for the agent to perform its task autonomously.\n- The subagent's outputs should generally be trusted\n- Clearly tell the subagent which tasks you want it to perform, since it is not aware of the user's intent or your prior assistant steps (tool calls, thinking, or messages).\n- If the subagent description mentions that it should be used proactively, then you should try your best to use it without the user having to ask for it first. Use your judgement.\n- If the user specifies that they want you to run subagents \"in parallel\", you MUST send a single message with multiple Subagent tool use content blocks. For example, if you need to launch both a code-reviewer subagent and a test-runner subagent in parallel, send a single message with both tool calls.\n- Avoid delegating the full query to the Subagent tool and returning the result. In these cases, you should address the query using the other tools available to you.\n\nAvailable subagent_types and a quick description of what they do:\n- generalPurpose: General-purpose agent for researching complex questions, searching for code, and executing multi-step tasks. Use when searching for a keyword or file and not confident you'll find the match quickly.\n- explore: Fast, readonly agent specialized for exploring codebases. Use this when you need to quickly find files by patterns (eg. \"src/components/**/*.tsx\"), search code for keywords (eg. \"API endpoints\"), or answer questions about the codebase (eg. \"how do API endpoints work?\"). This agent operates in read-only mode and cannot modify files. When calling this agent, specify the desired thoroughness level: \"quick\" for basic searches, \"medium\" for moderate exploration, or \"very thorough\" for comprehensive analysis across multiple locations and naming conventions.\n- shell: Command execution specialist for running bash commands. Use this for git operations, command execution, and other terminal tasks.\n- browser-use: Perform browser-based testing and web automation. This subagent can navigate web pages, interact with elements, fill forms, and take screenshots. Use this for testing web applications, verifying UI changes, or any browser-based tasks. Use this browser subagent when you need to either: (1) parallelize browser tasks alongside other work, or (2) execute a longer sequence of browser actions that benefit from dedicated context. For simple, single browser actions, you may use the browser tools directly. This subagent requires agent mode because browser MCP access is unavailable in readonly mode. This subagent_type is stateful; if a browserUse subagent already exists, the previously created subagent will be resumed if you reuse the Task tool with subagent_type set to browserUse. (Auto-resumes most recent agent of this type; `resume` arg is ignored)\n- cursor-guide: Read Cursor product documentation to answer questions about how Cursor Desktop, IDE, CLI, Cloud Agents, Bugbot, and other features work. Use when the user asks 'In Cursor, how do I...?' or similar questions about Cursor products.\n- ci-investigator: Investigate a single failing PR CI check and return a short root-cause summary. Use when the user asks to summarize, explain, diagnose, or investigate a specific failed check from a pull request.\n- bugbot: Use only when the user *explicitly* asks for a Bugbot-like review of local code changes. When launching this subagent, set the Task description to exactly \"Bugbot\". Launch exactly one Bugbot subagent with `readonly: true` and `run_in_background: false` unless the user explicitly asks to run in background. Use this fixed prompt form: \"Full Repository Path: ...\\nDiff: <one of: \\\"branch changes\\\", \\\"uncommitted changes\\\", \\\"natural language\\\">\\nChange Description: ...\\nCustom Instructions: ...\"; default to `Diff: branch changes`; include `Change Description` only when `Diff` is `natural language`, formatting it as one block per changed file (a `<path> (added|modified|deleted|renamed)` header followed by bullets of what changed, mentioning line numbers or ranges inline where helpful), and only use `natural language` as a last resort after a regular diff-based review failed because the diff could not be computed; include `Custom Instructions` only when the user gave specific review instructions. This subagent is single-shot and does not support `resume`; always launch a fresh subagent instead.\n- security-review: Use only when the user *explicitly* asks for a security review of local code changes. When launching this subagent, set the Task description to exactly \"Security Review\". Launch exactly one security-review subagent with `readonly: true` and `run_in_background: false` unless the user explicitly asks to run in background. Use this fixed prompt form: \"Full Repository Path: ...\\nDiff: <one of: \\\"branch changes\\\", \\\"uncommitted changes\\\">\\nCustom Instructions: ...\"; default to `Diff: branch changes`; include `Custom Instructions` only when the user gave specific review instructions. This subagent is single-shot and does not support `resume`; always launch a fresh subagent instead.\n- best-of-n-runner: Run a task in an isolated git worktree. Each best-of-n-runner gets its own branch and working directory. Use for best-of-N parallel attempts or isolated experiments.\n\nIf the user explicitly asks for the model of a subagent/task, you may ONLY use model slugs from this list:\n- composer-2.5-fast\n\nIf the user isn't asking for a specific version, prefer the latest version of the model family. As an example, if the user just says \"gpt\" or \"codex\", use the latest available version of GPT or Codex.\n\nIMPORTANT: If the user requests a model that is NOT in the list above, do NOT substitute a different model or guess. Instead, skip launching the subagent with that model and tell the user which model was unavailable and which models are available.\n\nWhen speaking to the USER about which model you selected for a subagent, do NOT use the kebab-case model names unless the user requested the model using that format. Ue the same naming scheme the user used to discuss the model when they requested it.\n\nWhen an agent runs in the background, you will be automatically notified when it completes after you end your own turn - do NOT AwaitShell, poll, or proactively check on its progress. Continue with other work or end your turn instead.",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "description": {
+        "type": "string",
+        "description": "A short, user-friendly title for the subagent. This appears in the UI as the subagent's name. Make it concrete and distinct, consider recent titles to avoid reuse. For resumed subagents which you are prompting to work on a separate task, give an updated description based on the latest work the subagent is performing. (Do not rename if the subagent is continuing work on the same high-level task.)"
+      },
+      "prompt": {
+        "type": "string",
+        "description": "The task for the agent to perform"
+      },
+      "model": {
+        "type": "string",
+        "description": "Optional model slug for this agent. If provided, it must resolve to one of the available model slugs. If omitted, the subagent uses the same model as the parent agent. Do not pass if resume field is set (prior model will be used). Only choose an explicit model when the user directly requests it."
+      },
+      "resume": {
+        "type": "string",
+        "description": "Optional agent ID to resume from. If provided, sends a follow-up message to the agent after it has completed. Requests to a currently running asynchronous agent fail unless `interrupt` is true; set `interrupt` to true only when you intend to interrupt the running agent. Use \"self\" to start a new agent with your own entire conversation history as a starting point (aka 'self-fork')."
+      },
+      "readonly": {
+        "type": "boolean",
+        "description": "If true, the subagent will run in readonly mode (\"Ask mode\") with restricted write operations and no MCP or internet access."
+      },
+      "subagent_type": {
+        "type": "string",
+        "enum": [
+          "generalPurpose",
+          "explore",
+          "shell",
+          "browser-use",
+          "cursor-guide",
+          "ci-investigator",
+          "bugbot",
+          "security-review",
+          "best-of-n-runner"
+        ],
+        "description": "Subagent type to use for this task. Must be one of: generalPurpose, explore, shell, browser-use, cursor-guide, ci-investigator, bugbot, security-review, best-of-n-runner."
+      },
+      "file_attachments": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "description": "Optional array of file paths to images or videos to pass to video-review subagents. Files are read and attached to the subagent's context. Use to forward relevant media (e.g. images sent by user) to subagents."
+      },
+      "environment": {
+        "type": "string",
+        "enum": [
+          "local",
+          "cloud"
+        ],
+        "description": "Optional execution environment for the subagent. Use \"local\" (default) for normal local subagents, or \"cloud\" to run the subagent as a cloud agent (i.e. in its own separate worktree). ONLY set to cloud if the user explicitly requests a cloud subagent. DO NOT set to cloud if user does not request cloud. Cloud subagents will work on their own git branch on their own VM. After subagent completion, follow user instructions on whether to merge that branch into your own branch, check it out, or neither."
+      },
+      "cloud_base_branch": {
+        "type": "string",
+        "description": "Base branch for the cloud subagent's branch to start from. Default is current branch. Uses remote version of branch; uncommitted or un-pushed branches will fail. Only specify this parameter if environment equals cloud."
+      },
+      "interrupt": {
+        "type": "boolean",
+        "description": "If true and `resume` targets a running async agent, interrupt the current run and send this prompt immediately. Only use when the user explicitly asks to interrupt or change what the running agent is doing."
+      },
+      "run_in_background": {
+        "type": "boolean",
+        "description": "Run the agent in the background (returns output_file path to check later). If this is false, you will be blocked until the agent completes. If the user is currently in Multitask Mode, always set this parameter to True. When true, the background subagent will send a notification when it completes. That notification includes a user-visible summary portion; do not summarize or restate a completed background subagent's result unless the user asks, multiple background subagents need synthesis, or a background subagent reports a blocker requiring parent action outside of the user-visible high level summary."
+      }
+    },
+    "required": [
+      "description",
+      "prompt"
+    ]
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "name": "WebFetch",
+  "capability": "web_fetch",
+  "confidence": "official (wire capture)",
+  "implemented": false,
+  "description": "Fetches a URL, converts the page to markdown, and answers `prompt` against it using a small fast model.\n\n- Fails on authenticated/private URLs — use an authenticated MCP tool or `gh` for those instead. Exception: claude.ai/code/artifact/{uuid} URLs ARE fetchable via your claude.ai login — use WebFetch, not curl (curl gets the SPA shell or a Cloudflare 403).\n- HTTP is upgraded to HTTPS. Cross-host redirects are returned to you rather than followed; call again with the redirect URL.\n- Responses are cached for 15 minutes per URL.",
+  "parameters": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "object",
+    "properties": {
+      "url": {
+        "description": "The URL to fetch content from",
+        "type": "string",
+        "format": "uri"
+      },
+      "prompt": {
+        "description": "The prompt to run on the fetched content",
+        "type": "string"
+      }
+    },
+    "required": [
+      "url",
+      "prompt"
+    ],
+    "additionalProperties": false
+  }
+}
